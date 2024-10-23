@@ -62,6 +62,19 @@
         plt.xlabel('Artist Count')
         plt.ylabel('Frequency')
         plt.show()
+## October 23,2024
+  - I noticed that the generated graph in Released Year it looks too small and hard to read. So I looked up on some solution on how to make it readable and I found out that bins make it readable and summarizes the graph
+    ```
+    sns.histplot(spot_data['released_year'], color='orange', bins = 50) #Generate the histogram using Seaborn
+    #Use matplot to modify the graph and show the graph
+    plt.title('Distribution of Released Year')
+    plt.xlabel('Released Year')
+    plt.ylabel('Frequency')
+    plt.show()
+    ```
+    ### The New graph for Released Year:
+    ![image](https://github.com/user-attachments/assets/fd19344b-a152-4387-8b24-5d474598c343)
+
 
 # Libraries Utilized
   - Pandas
