@@ -30,9 +30,12 @@ Here’s your revised README with the headers in proper order and no content cha
 
 ## Temporal Trends
   - From what I noticed in the the graph is that the trend of tracks released per year as that as the years go by the number of streams are gradually increasing.
+#### The Tracks Released Per Year:
 ![image](https://github.com/user-attachments/assets/c2913f62-49cd-4abd-8636-17f4da4b6164)
   - Comparing the monthly release of tracks shows that the January and May are the highest peak of tracks released, March had a peak but not as high as the the ones mentioned earlier, August had the lowest tracks released among the months. After May the amount of tracks released goes down and then starts to rise again after August.
-![image](https://github.com/user-attachments/assets/53a92e28-92c1-4cd8-8079-2339a515ed4e)
+#### The Number of Tracks Released Every Month:
+![image](https://github.com/user-attachments/assets/c11b01c8-ecf0-49fb-b423-cde3c496b607)
+
 
 
 
@@ -190,6 +193,7 @@ plt.show() #print the graph
 
 ## Version History
 ### 0.4 - October 24, 2024
+  - Minor adjustment to the name of the graph.
   - Started creating the Temporal Trends
   - Changed the code for the Top 5 performers since the track name and artist was missing
   - Added KDE to the graphs for better presentation
