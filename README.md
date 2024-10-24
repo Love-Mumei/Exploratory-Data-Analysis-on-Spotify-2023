@@ -1,4 +1,4 @@
-# Love-Mumei-Exploratory-Data-Analysis-on-Spotify-2023
+# Love Mumei Exploratory Data Analysis on Spotify 2023
 
 # Overview of the DataSet
   - Number of Rows: 953
@@ -11,9 +11,9 @@
   - Median: 290530915.0
   - Standard Deviation: 566856949.0388832
   #### Distribution of Release Year:
-![image](https://github.com/user-attachments/assets/51619a33-fe38-4910-bf95-20380b20e5b5)
+![image](https://github.com/user-attachments/assets/5ba30fb0-df94-428b-bf9d-4c956df5844f)
   #### Distribution of Artist Count:
-![image](https://github.com/user-attachments/assets/b364d215-305b-4902-8206-ab2a209bfb95)
+![image](https://github.com/user-attachments/assets/48026347-8d48-498e-9abb-7502feb00ab8)
 # Top Performers
   -The highest number of streams: 3.703895e+09
   #### Top 5 performers:
@@ -96,7 +96,9 @@
     plt.ylabel('Frequency')
     plt.show()
     ```
-    #### The New graph for the Released Year:
+    #### The previous graph for the Released Year:
+    ![image](https://github.com/user-attachments/assets/51619a33-fe38-4910-bf95-20380b20e5b5)
+    #### The new graph for the Released Year:
     ![image](https://github.com/user-attachments/assets/fd19344b-a152-4387-8b24-5d474598c343)
   ### Top Performance
   - When I was Sorting the values of streams, I found out that the last value is "NaN," and when ranking, the code and output looks like this:
@@ -105,13 +107,26 @@
     top_five
     ```
     ![image](https://github.com/user-attachments/assets/3e77a762-6453-414e-9d0c-2a8ad312e768)
-  - I assumed that "NaN" is not counted, which is why the tail has a 6 instead of 5. So, looking for a solution, I found the code .dropna()
+  - I assumed that "NaN" is not counted, which is why the tail has a six instead of 5. So, looking for a solution, I found the code .dropna()
     ```
     top_five = spot_data['streams'].sort_values().tail(6).iloc[::-1].reset_index()
     top_five.dropna()
     ```
     ![image](https://github.com/user-attachments/assets/7e1d177a-63da-40a4-b2c7-f9f021b33b5a)
-
+## October 24, 2024
+  - So, I changed the graph again. I added a Kernel Density Estimate or KDE when looking through the Seaborn site cited below and a grid for readability. The new code is:
+    ```
+    sns.histplot(spot_data['released_year'], color='orange', bins = 50, kde = True) #Generate the histogram for the released year using Seaborn
+    sns.histplot(spot_data['artist_count'], color='green', kde = True) #Generate the histogram for the artist count using Seaborn
+    ```
+### Before(released year):
+![image](https://github.com/user-attachments/assets/fd19344b-a152-4387-8b24-5d474598c343)
+### After:
+![image](https://github.com/user-attachments/assets/5ba30fb0-df94-428b-bf9d-4c956df5844f)
+Before (artist count):
+![image](https://github.com/user-attachments/assets/b364d215-305b-4902-8206-ab2a209bfb95)
+After:
+![image](https://github.com/user-attachments/assets/48026347-8d48-498e-9abb-7502feb00ab8)
 
 # Libraries Utilized
   - Pandas
@@ -120,6 +135,10 @@
 # Authors
   - Kyle Nathaniel V. Dimalanta
 # Version History
+## 0.4 - October 24, 2024
+  - Start creating the Temporal Trends
+  - Added the KDE to the graph to make it look more presentable.
+  - Edited the Title of README
 ## 0.3 - October 23, 2024
   - Create the Data Analysis for the "Top Performers"
   - Fix the Histogram for the Release year to make it more readable and summarize the graph.
@@ -133,7 +152,7 @@
   - Fix the encoding parameter to 'latin1' because 'UTF-8' shows an error
   - Load the csv file
 # References:
-  - 
+  - https://seaborn.pydata.org/generated/seaborn.histplot.html
   - https://stackoverflow.com/questions/75931562/remove-the-white-gaps-or-no-data-regions-from-the-histogram
   - https://seaborn.pydata.org/generated/seaborn.histplot.html
   - https://stackoverflow.com/questions/15891038/change-column-type-in-pandas/28648923#28648923
