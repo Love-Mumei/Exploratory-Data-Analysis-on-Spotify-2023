@@ -1,5 +1,3 @@
-![image](https://github.com/user-attachments/assets/ec0a76db-b6a4-4ecc-8926-2d8ad338ee63)# Love Mumei Exploratory Data Analysis on Spotify 2023
-
 ## Overview of the Dataset
   - Number of Rows: 953
   - Number of Columns: 24
