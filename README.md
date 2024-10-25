@@ -35,7 +35,7 @@
 ## Genre and Music Characteristics
 ### Correlation of BPM and Streams(in Billions)
 ![image](https://github.com/user-attachments/assets/68c8b4f5-1bf9-4de8-aa6e-900b0d5c2e4b)
-  - *Answer: *Based on my understanding of the graph, the correlation between the BPM and Streams is weak since there are too many variables in the BPM to indicate a clear correlation between the two.
+  - *Answer:* Based on my understanding of the graph, the correlation between the BPM and Streams is weak since there are too many variables in the BPM to indicate a clear correlation between the two.
 ### Correlation of Danceability and Streams(in Billions)
 
 
