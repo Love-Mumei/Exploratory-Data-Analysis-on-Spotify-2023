@@ -25,14 +25,18 @@
 ![image](https://github.com/user-attachments/assets/6576b7ca-9471-4d26-9857-cc1b166d48d3)
 
 ## Temporal Trends
-  - From what I noticed in the the graph is that the trend of tracks released per year as that as the years go by the number of streams are gradually increasing.
+  - From what I noticed in the graph, the trend of tracks released per year is that as the years go by, the number of streams is gradually increasing.
 #### The Tracks Released Per Year:
 ![image](https://github.com/user-attachments/assets/c2913f62-49cd-4abd-8636-17f4da4b6164)
-  - Comparing the monthly release of tracks shows that the January and May are the highest peak of tracks released, March had a peak but not as high as the the ones mentioned earlier, August had the lowest tracks released among the months. After May the amount of tracks released goes down and then starts to rise again after August.
+  - Comparing the monthly release of tracks shows that January and May have the highest peaks of tracks released; March had a peak but not as high as the ones mentioned earlier, and August had the lowest number of tracks released among the months. After May, the number of tracks released goes down and then rises again after August.
 #### The Number of Tracks Released Every Month:
 ![image](https://github.com/user-attachments/assets/c11b01c8-ecf0-49fb-b423-cde3c496b607)
 
-
+## Genre and Music Characteristics
+### Correlation of BPM and Streams(in Billions)
+![image](https://github.com/user-attachments/assets/68c8b4f5-1bf9-4de8-aa6e-900b0d5c2e4b)
+  - *Answer: *Based on my understanding of the graph, the correlation between the BPM and Streams is weak since there are too many variables in the BPM to indicate a clear correlation between the two.
+### Correlation of Danceability and Streams(in Billions)
 
 
 ## Documentation
@@ -144,13 +148,13 @@
     ![image](https://github.com/user-attachments/assets/7e1d177a-63da-40a4-b2c7-f9f021b33b5a)
 
 ### October 24, 2024
-  - In the basic descriptive statistics section I updated the graph again by adding a Kernel Density Estimate (KDE) and a grid for readability. The new code is:
+  - In the basic descriptive statistics section, I updated the graph by adding a Kernel Density Estimate (KDE) and a grid for readability. The new code is:
     ```
     sns.histplot(spot_data['released_year'], color='orange', bins = 50, kde = True) # Generate the histogram for the released year using Seaborn
     sns.histplot(spot_data['artist_count'], color='green', kde = True) # Generate the histogram for the artist count using Seaborn
     ```
 
-  - In the Top Performers section, I forgot to include the track name, so I rewrote the code to include both streams and track names. Here is the new code:
+  - I forgot to include the track name in the Top Performers section, so I rewrote the code to include both streams and track names. Here is the new code:
     ```
     top_five_streams = spot_data.sort_values(by = 'streams').tail(6).iloc[::-1].reset_index()
     # Sorting the column 'streams' and assuming "NaN" is not counted
@@ -158,8 +162,12 @@
     print(top_five_streams[['track_name', 'streams']].dropna())
     ```
 #### Temporal Trends:
-  - This part is almost the same as the basic descriptive statistics where I willl look for the graph of the track released per year and comparing the tracks released every month
+  - This part is almost the same as the basic descriptive statistics, where I will look for the graph of the tracks released per year and compare the tracks released every month
 ```
+release_data = spot_data.groupby('released_year').size().reset_index(name='track_count') #check the ff. data and output it
+release_data
+
+
 sns.histplot(x='released_year', data = release_data, color='red', kde = True)#Generate a Line graph with the month on the x-axis
 #number of tracks in the y-axis
 plt.title('Tracks Released Per Year')#title of the graph
@@ -167,6 +175,9 @@ plt.xlabel('Release Year')#label in the x-axis
 plt.ylabel('Number of Tracks')#label in the y-axis
 plt.grid(True) #add a grid
 plt.show() #print the graph
+
+month_of_release = spot_data.groupby('released_month').size().reset_index(name='track_count') #check the ff. data and output it
+month_of_release
 
 
 sns.lineplot(x='released_month',y='track_count', data = month_of_release, color='brown', marker = 'o') #Generate a Line graph with the month on the x-axis
@@ -177,6 +188,22 @@ plt.ylabel('Number of Tracks Released') #label in the y-axis
 plt.grid(True) #add a grid
 plt.show() #print the graph
 ```
+### October 25, 2024
+  - First, I coded for the graph, looking for the correlation between BPM and Streams.
+```
+stream_and_bpm = spot_data[['bpm', 'streams']] #look for the values of BPM and Streams
+stream_and_bpm.dropna() #print for checking
+
+plt.figure(figsize=(20,10))#Adjust the size of the graph
+sns.lineplot(x='bpm',y='streams', data = stream_and_bpm, color='black', marker = 'o') #Generate a Line graph with the month on the x-axis
+#number of tracks in the y-axis
+plt.title('Relationship Of The Number of Streamsa and BPM') #title of the graph
+plt.xlabel('BPM') #label in the x-axis
+plt.ylabel('streams In Billions') #label in the y-axis
+plt.grid(True) #add a grid
+plt.show() #print the graph
+```
+  - When I saw the output, I was curious about the highlighted parts in the graph, so I looked it up on the Seaborn web, and it turns out that it is called a confidence interval (ci). Looking deeper, it seems that it means a range of values that likely includes the true parameter, allowing for uncertainty in sampling that I got from https://statisticsbyjim.com.
 ---
 
 ## Libraries Utilized
@@ -188,6 +215,8 @@ plt.show() #print the graph
   - Kyle Nathaniel V. Dimalanta
 
 ## Version History
+### 0.5 - October 25, 2024
+  - Started creating the Genre and Music Characteristics
 ### 0.4 - October 24, 2024
   - Minor adjustment to the name of the graph.
   - Started creating the Temporal Trends
@@ -199,7 +228,7 @@ plt.show() #print the graph
   - Adjusted the histogram for the Released Year to make it more readable
 
 ### 0.2 - October 22, 2024
-  - Added Matplotlib and Seaborn Libraries
+  - Added matplotlib and Seaborn Libraries
   - Fixed the ValueError when converting the 'streams' column from Object to Float
 
 ### 0.1 - October 21, 2024
@@ -210,6 +239,7 @@ plt.show() #print the graph
   - Loaded the CSV file
 
 ## References:
+  - https://statisticsbyjim.com/hypothesis-testing/confidence-interval/
   - https://seaborn.pydata.org/generated/seaborn.histplot.html
   - https://stackoverflow.com/questions/759
   - https://seaborn.pydata.org/generated/seaborn.histplot.html
