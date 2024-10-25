@@ -1,5 +1,3 @@
-Here’s your revised README with the headers in proper order and no content changes:
-
 ---
 
 # Love Mumei Exploratory Data Analysis on Spotify 2023
