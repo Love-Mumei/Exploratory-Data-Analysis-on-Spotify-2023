@@ -1,5 +1,3 @@
----
-
 # Love Mumei Exploratory Data Analysis on Spotify 2023
 
 ## Overview of the Dataset
