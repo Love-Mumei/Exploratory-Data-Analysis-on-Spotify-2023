@@ -1,4 +1,4 @@
-# Love Mumei Exploratory Data Analysis on Spotify 2023
+![image](https://github.com/user-attachments/assets/ec0a76db-b6a4-4ecc-8926-2d8ad338ee63)# Love Mumei Exploratory Data Analysis on Spotify 2023
 
 ## Overview of the Dataset
   - Number of Rows: 953
@@ -25,7 +25,7 @@
 ![image](https://github.com/user-attachments/assets/6576b7ca-9471-4d26-9857-cc1b166d48d3)
 
 ## Temporal Trends
-  - From what I noticed in the graph, the trend of tracks released per year is that as the years go by, the number of streams is gradually increasing.
+  - From what I noticed in the graph, the trend of tracks released per year is that as the years go by, the number of streams gradually increases.
 #### The Tracks Released Per Year:
 ![image](https://github.com/user-attachments/assets/c2913f62-49cd-4abd-8636-17f4da4b6164)
   - Comparing the monthly release of tracks shows that January and May have the highest peaks of tracks released; March had a peak but not as high as the ones mentioned earlier, and August had the lowest number of tracks released among the months. After May, the number of tracks released goes down and then rises again after August.
@@ -34,11 +34,16 @@
 
 ## Genre and Music Characteristics
 ### Correlation of BPM and Streams(in Billions)
-![image](https://github.com/user-attachments/assets/68c8b4f5-1bf9-4de8-aa6e-900b0d5c2e4b)
-  - **Answer:** Based on my understanding of the graph, the correlation between the BPM and Streams is weak since there are too many variables in the BPM to indicate a clear correlation between the two.
+![image](https://github.com/user-attachments/assets/84e307d7-3c25-4d4d-9829-f2a2ca50192f)
+  - **Answer:** Based on my understanding of the graph, the correlation between the BPM and Streams is weak since the scatter plot is too scattered apart to indicate a reliable correlation
 ### Correlation of Danceability and Streams(in Billions)
-
-
+![image](https://github.com/user-attachments/assets/bdfc361c-83a9-47d6-931b-06b530b40bfb)
+  - **Answer:** The density of this scatter plot is less scattered than the bpm and streams scatter plot.
+### Correlation of Energy and Streams(in Billions)
+![image](https://github.com/user-attachments/assets/fced8d62-a6aa-449b-9ec2-9789ffe1c612)
+  - **Answer:** This scatter plot has a denser scatter plot compared to the two previous plots 
+### Which attributes seem to influence streams the most?
+  - **Answer:** Based on the data given to me, the attribute that influences the streams the most is the Energy since it has the strongest correlation compared to danceability and BPM.
 ## Documentation
 
 ### October 21, 2024
@@ -195,7 +200,7 @@ stream_and_bpm = spot_data[['bpm', 'streams']] #look for the values of BPM and S
 stream_and_bpm.dropna() #print for checking
 
 plt.figure(figsize=(20,10))#Adjust the size of the graph
-sns.lineplot(x='bpm',y='streams', data = stream_and_bpm, color='black', marker = 'o') #Generate a Line graph with the month on the x-axis
+sns.scatterplot(x='bpm',y='streams', data = stream_and_bpm, color='black', marker = 'o') #Generate a Line graph with the month on the x-axis
 #number of tracks in the y-axis
 plt.title('Relationship Of The Number of Streamsa and BPM') #title of the graph
 plt.xlabel('BPM') #label in the x-axis
@@ -203,7 +208,30 @@ plt.ylabel('streams In Billions') #label in the y-axis
 plt.grid(True) #add a grid
 plt.show() #print the graph
 ```
-  - When I saw the output, I was curious about the highlighted parts in the graph, so I looked it up on the Seaborn web, and it turns out that it is called a confidence interval (ci). Looking deeper, it seems that it means a range of values that likely includes the true parameter, allowing for uncertainty in sampling that I got from https://statisticsbyjim.com.
+  - I realized when coding for the correlation of streams and danceability and energy that I could use the main dataframe to call the data instead of creating a separate line of code specifically calling the two columns I needed. I used the same code from my previous code in the "Number of Tracks Released Every Month" since I was using the same type of graph, but I realized that I did not need to group the values.
+  - Another mistake on my part is that I used the wrong plot to see the correlation between the two variables. I should've used a scatter plot instead of a line plot.
+  - The code for danceability and stream graph
+```
+plt.figure(figsize=(20,10))#Adjust the size of the graph
+sns.scattereplot(x='danceability_%',y='streams', data = spot_data, color='maroon', marker = 'o') #Generate a Line graph with the month on the x-axis
+#number of tracks in the y-axis
+plt.title('Relationship Of The Number of Streams and Danceability') #title of the graph
+plt.xlabel('Danceability') #label in the x-axis
+plt.ylabel('Streams In Billions') #label in the y-axis
+plt.grid(True) #add a grid
+plt.show() #print the graph
+```
+  - The code for the energy and streams graph
+```
+plt.figure(figsize=(20,10))#Adjust the size of the graph
+sns.scatterplot(x='energy_%',y='streams', data = spot_data, color='purple', marker = 'o') #Generate a Line graph with the month on the x-axis
+#number of tracks in the y-axis
+plt.title('Relationship Of The Number of Streams and Enery') #title of the graph
+plt.xlabel('Energy') #label in the x-axis
+plt.ylabel('Streams In Billions') #label in the y-axis
+plt.grid(True) #add a grid
+plt.show() #print the graph
+```
 ---
 
 ## Libraries Utilized
@@ -216,6 +244,8 @@ plt.show() #print the graph
 
 ## Version History
 ### 0.5 - October 25, 2024
+  - Using a different plot from line plot to scatter for the correlations
+  - Some adjustments to the structure of grammar.
   - Started creating the Genre and Music Characteristics
 ### 0.4 - October 24, 2024
   - Minor adjustment to the name of the graph.
@@ -239,7 +269,7 @@ plt.show() #print the graph
   - Loaded the CSV file
 
 ## References:
-  - https://statisticsbyjim.com/hypothesis-testing/confidence-interval/
+  - https://www.westga.edu/academics/research/vrc/assets/docs/scatterplots_and_correlation_notes.pdf
   - https://seaborn.pydata.org/generated/seaborn.histplot.html
   - https://stackoverflow.com/questions/759
   - https://seaborn.pydata.org/generated/seaborn.histplot.html
