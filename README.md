@@ -147,14 +147,14 @@
     ![image](https://github.com/user-attachments/assets/51619a33-fe38-4910-bf95-20380b20e5b5)
 
 #### Top Performaers:
-  - When sorting the values of streams, I found out that the last value was "NaN," and when ranking, the output looked like this:[^4]
+  - When sorting the values of streams, I found out that the last value was "NaN," and when ranking, the output looked like this:
     ```
     top_five = spot_data['streams'].sort_values().tail(6).iloc[::-1].reset_index()
     top_five
     ```
     ![image](https://github.com/user-attachments/assets/3e77a762-6453-414e-9d0c-2a8ad312e768)
 
-  - I assumed that "NaN" was not counted, so I used `.dropna()` to exclude it:
+  - I assumed that "NaN" was not counted, so I used `.dropna()`[^4] to exclude it:
     ```
     top_five = spot_data['streams'].sort_values().tail(6).iloc[::-1].reset_index()
     top_five.dropna()
