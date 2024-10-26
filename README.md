@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/4ecf59ef-b015-4e78-9dfc-34c5871c933c)## Overview of the Dataset
+## Overview of the Dataset
   - Number of Rows: 953
   - Number of Columns: 24
   - Datatypes on each column:
