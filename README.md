@@ -1,4 +1,4 @@
-## Overview of the Dataset
+![image](https://github.com/user-attachments/assets/4ecf59ef-b015-4e78-9dfc-34c5871c933c)## Overview of the Dataset
   - Number of Rows: 953
   - Number of Columns: 24
   - Datatypes on each column:
@@ -38,10 +38,15 @@
 ![image](https://github.com/user-attachments/assets/bdfc361c-83a9-47d6-931b-06b530b40bfb)
   - **Answer:** The density of this scatter plot is less scattered than the bpm and streams scatter plot.
 ### Correlation of Energy and Streams(in Billions)
-![image](https://github.com/user-attachments/assets/fced8d62-a6aa-449b-9ec2-9789ffe1c612)
+![image](https://github.com/user-attachments/assets/4692fe89-d36f-4491-bcab-2c0431a91ac0)
   - **Answer:** This scatter plot has a denser scatter plot compared to the two previous plots 
 ### Which attributes seem to influence streams the most?
-  - **Answer:** Based on the data given to me, the attribute that influences the streams the most is the Energy since it has the strongest correlation compared to danceability and BPM.
+  - **Answer:** Based on the data given to me, the attribute that influences the streams the most is energy since it correlates strongly with streams compared to the correlation of danceability and BPM to streams.
+### Is there a correlation between danceability_% and energy_%? How about valence_% and acousticness_%?
+![image](https://github.com/user-attachments/assets/eb581935-6fd9-445c-9500-1e92cd3ba4a9)
+![image](https://github.com/user-attachments/assets/54121e1a-649a-40c4-bb63-62abecc0abc3)
+  - **Answer:** Based on my observation 
+
 ## Documentation
 
 ### October 21, 2024
