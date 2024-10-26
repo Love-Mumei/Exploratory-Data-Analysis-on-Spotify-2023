@@ -45,8 +45,13 @@
 ### Is there a correlation between danceability_% and energy_%? How about valence_% and acousticness_%?
 ![image](https://github.com/user-attachments/assets/eb581935-6fd9-445c-9500-1e92cd3ba4a9)
 ![image](https://github.com/user-attachments/assets/54121e1a-649a-40c4-bb63-62abecc0abc3)
-  - **Answer:** Based on my observation I noticed that the correlation between danceability and energy is stronger than  the correlation between valence and acousticness because the  plots in the correlation of valence and acousticness is more scattered compared to the correlation between danceability and energy.
+  - **Answer:** Based on my observation, I noticed that the correlation between danceability and energy is stronger than the correlation between valence and acousticness because the plots in the correlation of valence and acousticness are more scattered compared to the correlation between danceability and energy.
 
+## Platform Popularity
+![image](https://github.com/user-attachments/assets/fd1893ac-6723-477c-a515-4dba893d35df)
+  - **Answer:** Observing the graph, I saw that the Spotify playlist dominated the graph and was more favored than the two variables.
+![image](https://github.com/user-attachments/assets/38ae68b1-8104-49b5-b98e-67a62e4baaa8)
+  - **Answer:** Using the data from the "Top Performers," I saw that Spotify playlist is the top track's favored platform.
 ## Documentation
 
 ### October 21, 2024
@@ -235,8 +240,59 @@ plt.ylabel('Streams In Billions') #label in the y-axis
 plt.grid(True) #add a grid
 plt.show() #print the graph
 ```
+### October 26, 2024
+  - I started doing the Correlation of Danceability and Energy, and Valence and Acousticness
+  - The Code for the Danceabilit and Energy
+```
+plt.figure(figsize=(20,10))#Adjust the size of the graph
+sns.scatterplot(x='energy_%',y='danceability_%', data = spot_data, marker = 'o') #Generate a Line graph with the month on the x-axis
+#number of tracks in the y-axis
+plt.title('Relationship Of Energy and Danceability') #title of the graph
+plt.xlabel('Energy') #label in the x-axis
+plt.ylabel('Danceability') #label in the y-axis
+plt.grid(True) #add a grid
+plt.show() #print the graph
+```
+  - The code for the Valence and Acousticness
+```
+plt.figure(figsize=(20,10))#Adjust the size of the graph
+sns.scatterplot(x='valence_%',y='acousticness_%', data = spot_data, color = 'green', marker = 'o') #Generate a Line graph with the month on the x-axis
+#number of tracks in the y-axis
+plt.title('Relationship Of Valence and Acousticness') #title of the graph
+plt.xlabel('Valence') #label in the x-axis
+plt.ylabel('Acousticness') #label in the y-axis
+plt.grid(True) #add a grid
+plt.show() #print the graph
+```
 ---
-
+### Platform Popularity
+  - I start finding the sums of the following platforms for comparison. After finding the sums, I plan on turning them into a Dictionary and a DataFrame. I first tried to make the same approach when reviewing the "Pandas.ipynb" but Realized that I need the keys and values to be in a row, not the keys and values to be in a column. So, looking around the internet, I found that using .items() would make the rows and values be in a column, and this allowed me to create a different name for the Columns, then went to graphing the DataFrame.
+  - As a side note, I divided the sums to 1e6 to remove it from the graph since it is already mentioned that it is in millions.
+```
+#Find the sums of each platform divided into 1e6 for simplification
+spotify_playlist_count = spot_data['in_spotify_playlists'].sum()/1e6
+spotify_chart_count = spot_data['in_spotify_charts'].sum()/1e6
+apple_playlist_count = spot_data['in_apple_playlists'].sum()/1e6
+#Turn this into a Dictionary
+norm_data = {'Spotify Playlist' : spotify_playlist_count, 'Spotify Chart' : spotify_chart_count, 'Apple Playlist' : apple_playlist_count}
+#Convert the Dictionary to a DataFrame
+graph_data = pd.DataFrame(norm_data.items(), columns=['platform', 'tracks'])
+#Generate the Graph for comparison
+sns.barplot(x = 'platform', y = 'tracks', data = graph_data, color='maroon')
+plt.title('Comparing the Number of Total Tracks Based in the Platforms')
+plt.xlabel('Platforms')
+plt.ylabel('Tracks (in Millions)')
+plt.show()
+```
+  - looking for the favored platform used by the top-performing tracks, I used the previous code in "Top Performers" as my basis for analyzing the favored platform by the top tracks.
+```
+x = top_five_streams[['in_spotify_playlists']].sum()
+y = top_five_streams[['in_spotify_charts']].sum()
+z = top_five_streams[['in_apple_playlists']].sum()
+print("The sum of the Top performing Tracks that favors using the Spotify Playlist is ", x)
+print("The sum of the Top performing Tracks that favors using the Spotify Chart is ", y)
+print("The sum of the Top performing Tracks that favors using the Apple Playlist is ", z)
+```
 ## Libraries Utilized
   - Pandas
   - Matplotlib.pyplot
@@ -246,6 +302,8 @@ plt.show() #print the graph
   - Kyle Nathaniel V. Dimalanta
 
 ## Version History
+### 0.6 - October 26, 2024
+  - Start creating the Platform Popularity
 ### 0.5 - October 25, 2024
   - Using a different plot from line plot to scatter for the correlations
   - Some adjustments to the structure of grammar.
@@ -272,6 +330,7 @@ plt.show() #print the graph
   - Loaded the CSV file
 
 ## References:
+  - https://stackoverflow.com/a/18837389/23541370
   - https://www.westga.edu/academics/research/vrc/assets/docs/scatterplots_and_correlation_notes.pdf
   - https://seaborn.pydata.org/generated/seaborn.histplot.html
   - https://stackoverflow.com/questions/759
