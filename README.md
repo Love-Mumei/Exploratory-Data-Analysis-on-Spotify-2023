@@ -45,7 +45,7 @@
 ### Is there a correlation between danceability_% and energy_%? How about valence_% and acousticness_%?
 ![image](https://github.com/user-attachments/assets/eb581935-6fd9-445c-9500-1e92cd3ba4a9)
 ![image](https://github.com/user-attachments/assets/54121e1a-649a-40c4-bb63-62abecc0abc3)
-  - **Answer:** Based on my observation 
+  - **Answer:** Based on my observation I noticed that the correlation between danceability and energy is stronger than  the correlation between valence and acousticness because the  plots in the correlation of valence and acousticness is more scattered compared to the correlation between danceability and energy.
 
 ## Documentation
 
