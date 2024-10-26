@@ -57,6 +57,7 @@
 ### October 21, 2024
 
 #### Overview of the Dataset
+  - When loading the CSV file, it is having a UnicodeDecodeError so I found a way to resolve it by using "encode = 'latin1'" [^1] 
   - Realizing that the data type for the 'streams' column is wrong, I used `.astype(float)` on the 'streams' column to convert the datatype from Object to Float. The code snippet is:
      ```
      spot_data['streams'] = pd.to_numeric(Spot_Data['streams'], errors = 'coerce')
@@ -70,7 +71,7 @@
 ### October 22, 2024
 
 #### Overview of the Dataset:
-  - When I reran the code, it showed an error that said "ValueError." What I did was change the code from `.astype(float)` to `pd.to_numeric(Spot_Data['streams'], errors = 'coerce')`, and it worked.
+  - When I reran the code, it showed an error that said "ValueError." What I did was change the code from `.astype(float)` to `pd.to_numeric(Spot_Data['streams'], errors = 'coerce')`, and it worked.[^2]
   - `pd.to_numeric()` converts it from object to float because when I looked at the raw data, it is in exponential form, and casting to integers would have caused an int casting error.
   - The code snippet is:
     ```
@@ -133,7 +134,7 @@
     ```
 
 ### October 23, 2024
-  - I noticed that the graph for the Released Year was too small and hard to read. I found a solution to make it more readable by adjusting the number of bins:
+  - I noticed that the graph for the Released Year was too small and hard to read. I found a solution to make it more readable by adjusting the number of bins:[^3]
     ```
     sns.histplot(spot_data['released_year'], color='orange', bins = 50) # Generate the histogram using Seaborn
     # Use matplot to modify the graph and show the graph
@@ -146,7 +147,7 @@
     ![image](https://github.com/user-attachments/assets/51619a33-fe38-4910-bf95-20380b20e5b5)
 
 #### Top Performaers:
-  - When sorting the values of streams, I found out that the last value was "NaN," and when ranking, the output looked like this:
+  - When sorting the values of streams, I found out that the last value was "NaN," and when ranking, the output looked like this:[^4]
     ```
     top_five = spot_data['streams'].sort_values().tail(6).iloc[::-1].reset_index()
     top_five
@@ -161,7 +162,7 @@
     ![image](https://github.com/user-attachments/assets/7e1d177a-63da-40a4-b2c7-f9f021b33b5a)
 
 ### October 24, 2024
-  - In the basic descriptive statistics section, I updated the graph by adding a Kernel Density Estimate (KDE) and a grid for readability. The new code is:
+  - In the basic descriptive statistics section, I updated the graph by adding a Kernel Density Estimate (KDE) and a grid for readability. The new code is:[^3]
     ```
     sns.histplot(spot_data['released_year'], color='orange', bins = 50, kde = True) # Generate the histogram for the released year using Seaborn
     sns.histplot(spot_data['artist_count'], color='green', kde = True) # Generate the histogram for the artist count using Seaborn
@@ -216,7 +217,7 @@ plt.ylabel('streams In Billions') #label in the y-axis
 plt.grid(True) #add a grid
 plt.show() #print the graph
 ```
-  - I realized when coding for the correlation of streams and danceability and energy that I could use the main dataframe to call the data instead of creating a separate line of code specifically calling the two columns I needed. I used the same code from my previous code in the "Number of Tracks Released Every Month" since I was using the same type of graph, but I realized that I did not need to group the values.
+  - I realized when coding for the correlation of streams and danceability and energy that I could use the main dataframe to call the data instead of creating a separate line of code specifically calling the two columns I needed. I used the same code from my previous code in the "Number of Tracks Released Every Month" since I was using the same type of graph, but I realized that I did not need to group the values.[^5]
   - Another mistake on my part is that I used the wrong plot to see the correlation between the two variables. I should've used a scatter plot instead of a line plot.
   - The code for danceability and stream graph
 ```
@@ -266,7 +267,7 @@ plt.show() #print the graph
 ```
 ---
 ### Platform Popularity
-  - I start finding the sums of the following platforms for comparison. After finding the sums, I plan on turning them into a Dictionary and a DataFrame. I first tried to make the same approach when reviewing the "Pandas.ipynb" but Realized that I need the keys and values to be in a row, not the keys and values to be in a column. So, looking around the internet, I found that using .items() would make the rows and values be in a column, and this allowed me to create a different name for the Columns, then went to graphing the DataFrame.
+  - I start finding the sums of the following platforms for comparison. After finding the sums, I plan on turning them into a Dictionary and a DataFrame. I first tried to make the same approach when reviewing the "Pandas.ipynb" but Realized that I need the keys and values to be in a row, not the keys and values to be in a column. So, looking around the internet, I found that using .items() would make the rows and values be in a column, and this allowed me to create a different name for the Columns, then went to graphing the DataFrame.[^6]
   - As a side note, I divided the sums to 1e6 to remove it from the graph since it is already mentioned that it is in millions.
 ```
 #Find the sums of each platform divided into 1e6 for simplification
@@ -303,6 +304,7 @@ print("The sum of the Top performing Tracks that favors using the Apple Playlist
 
 ## Version History
 ### 0.6 - October 26, 2024
+  - Added the references to the documentation
   - Start creating the Platform Popularity
 ### 0.5 - October 25, 2024
   - Using a different plot from line plot to scatter for the correlations
@@ -330,10 +332,9 @@ print("The sum of the Top performing Tracks that favors using the Apple Playlist
   - Loaded the CSV file
 
 ## References:
-  - https://stackoverflow.com/a/18837389/23541370
-  - https://www.westga.edu/academics/research/vrc/assets/docs/scatterplots_and_correlation_notes.pdf
-  - https://seaborn.pydata.org/generated/seaborn.histplot.html
-  - https://stackoverflow.com/questions/759
-  - https://seaborn.pydata.org/generated/seaborn.histplot.html
-  - https://stackoverflow.com/questions/15891038/change-column-type-in-pandas/28648923#28648923
-  - https://stackoverflow.com/a/53361168/23541370
+[^6]: https://stackoverflow.com/a/18837389/23541370
+[^5]: https://www.westga.edu/academics/research/vrc/assets/docs/scatterplots_and_correlation_notes.pdf
+[^4]: https://saturncloud.io/blog/python-pandas-how-to-remove-nan-and-inf-values/
+[^3]: https://seaborn.pydata.org/generated/seaborn.histplot.html
+[^2]: https://stackoverflow.com/questions/15891038/change-column-type-in-pandas/28648923#28648923
+[^1]: https://stackoverflow.com/a/53361168/23541370
