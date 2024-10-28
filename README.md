@@ -1,4 +1,4 @@
-## Overview of the Dataset
+![image](https://github.com/user-attachments/assets/6ade959d-7bfa-46c9-8711-d15dcb66adef)## Overview of the Dataset
   - Number of Rows: 953
   - Number of Columns: 24
   - Datatypes on each column:
@@ -267,13 +267,13 @@ plt.show() #print the graph
 ```
 ---
 ### Platform Popularity
-  - I start finding the sums of the following platforms for comparison. After finding the sums, I plan on turning them into a Dictionary and a DataFrame. I first tried to make the same approach when reviewing the "Pandas.ipynb" but Realized that I need the keys and values to be in a row, not the keys and values to be in a column. So, looking around the internet, I found that using .items() would make the rows and values be in a column, and this allowed me to create a different name for the Columns, then went to graphing the DataFrame.[^6]
+  - I start finding the sums of the following platforms for comparison. After finding the means, I plan on turning them into a Dictionary and a DataFrame. I first tried to make the same approach when reviewing the "Pandas.ipynb" but Realized that I need the keys and values to be in a row, not the keys and values to be in a column. So, looking around the internet, I found that using .items() would make the rows and values be in a column, and this allowed me to create a different name for the Columns, then went to graphing the DataFrame.[^6]
   - As a side note, I divided the sums to 1e6 to remove it from the graph since it is already mentioned that it is in millions.
 ```
 #Find the sums of each platform divided into 1e6 for simplification
-spotify_playlist_count = spot_data['in_spotify_playlists'].sum()/1e6
-spotify_chart_count = spot_data['in_spotify_charts'].sum()/1e6
-apple_playlist_count = spot_data['in_apple_playlists'].sum()/1e6
+spotify_playlist_count = spot_data['in_spotify_playlists'].mean()
+spotify_chart_count = spot_data['in_spotify_charts'].mean()
+apple_playlist_count = spot_data['in_apple_playlists'].mean()
 #Turn this into a Dictionary
 norm_data = {'Spotify Playlist' : spotify_playlist_count, 'Spotify Chart' : spotify_chart_count, 'Apple Playlist' : apple_playlist_count}
 #Convert the Dictionary to a DataFrame
@@ -287,13 +287,18 @@ plt.show()
 ```
   - looking for the favored platform used by the top-performing tracks, I used the previous code in "Top Performers" as my basis for analyzing the favored platform by the top tracks.
 ```
-x = top_five_streams[['in_spotify_playlists']].sum()
-y = top_five_streams[['in_spotify_charts']].sum()
-z = top_five_streams[['in_apple_playlists']].sum()
+x = top_five_streams[['in_spotify_playlists']].mean()
+y = top_five_streams[['in_spotify_charts']].mean()
+z = top_five_streams[['in_apple_playlists']].mean()
 print("The sum of the Top performing Tracks that favors using the Spotify Playlist is ", x)
 print("The sum of the Top performing Tracks that favors using the Spotify Chart is ", y)
 print("The sum of the Top performing Tracks that favors using the Apple Playlist is ", z)
 ```
+
+## October 28, 2024
+### Advanced Analysis
+  - So I just realized that
+  
 ## Libraries Utilized
   - Pandas
   - Matplotlib.pyplot
@@ -303,6 +308,9 @@ print("The sum of the Top performing Tracks that favors using the Apple Playlist
   - Kyle Nathaniel V. Dimalanta
 
 ## Version History
+### 0.7 - October 28, 2024
+  - Start creating the Advance Analysis
+  - Fix Platform Popularity from .sum() to .mean()
 ### 0.6 - October 26, 2024
   - Added the references to the documentation
   - Start creating the Platform Popularity
