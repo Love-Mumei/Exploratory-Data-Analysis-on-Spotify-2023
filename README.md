@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/6ade959d-7bfa-46c9-8711-d15dcb66adef)## Overview of the Dataset
+## Overview of the Dataset
   - Number of Rows: 953
   - Number of Columns: 24
   - Datatypes on each column:
@@ -52,6 +52,13 @@
   - **Answer:** Observing the graph, I saw that the Spotify playlist dominated the graph and was more favored than the two variables.
 ![image](https://github.com/user-attachments/assets/38ae68b1-8104-49b5-b98e-67a62e4baaa8)
   - **Answer:** Using the data from the "Top Performers," I saw that Spotify playlist is the top track's favored platform.
+
+## Advanced Analysis
+![image](https://github.com/user-attachments/assets/31c0c3a8-7a72-440e-b161-59b9cf0deca5)
+
+![image](https://github.com/user-attachments/assets/47e7cb39-48fa-4ed4-bf89-fc160a83f8e0)
+
+
 ## Documentation
 
 ### October 21, 2024
@@ -271,9 +278,9 @@ plt.show() #print the graph
   - As a side note, I divided the sums to 1e6 to remove it from the graph since it is already mentioned that it is in millions.
 ```
 #Find the sums of each platform divided into 1e6 for simplification
-spotify_playlist_count = spot_data['in_spotify_playlists'].mean()
-spotify_chart_count = spot_data['in_spotify_charts'].mean()
-apple_playlist_count = spot_data['in_apple_playlists'].mean()
+spotify_playlist_count = spot_data['in_spotify_playlists'].sum()
+spotify_chart_count = spot_data['in_spotify_charts'].sum()
+apple_playlist_count = spot_data['in_apple_playlists'].sum()
 #Turn this into a Dictionary
 norm_data = {'Spotify Playlist' : spotify_playlist_count, 'Spotify Chart' : spotify_chart_count, 'Apple Playlist' : apple_playlist_count}
 #Convert the Dictionary to a DataFrame
@@ -287,18 +294,63 @@ plt.show()
 ```
   - looking for the favored platform used by the top-performing tracks, I used the previous code in "Top Performers" as my basis for analyzing the favored platform by the top tracks.
 ```
-x = top_five_streams[['in_spotify_playlists']].mean()
-y = top_five_streams[['in_spotify_charts']].mean()
-z = top_five_streams[['in_apple_playlists']].mean()
+x = top_five_streams[['in_spotify_playlists']].sum()
+y = top_five_streams[['in_spotify_charts']].sum()
+z = top_five_streams[['in_apple_playlists']].sum()
 print("The sum of the Top performing Tracks that favors using the Spotify Playlist is ", x)
 print("The sum of the Top performing Tracks that favors using the Spotify Chart is ", y)
 print("The sum of the Top performing Tracks that favors using the Apple Playlist is ", z)
 ```
 
 ## October 28, 2024
-### Advanced Analysis
-  - So I just realized that
-  
+### Platform Popularity
+  - So, using the .sum() is not that reliable since I am looking for the average track count in the Spotify playlist, Spotify charts, and Apple playlist. So I changed it from .add() to .mean().
+  - The adjustments made in the code:
+```
+spotify_playlist_count = spot_data['in_spotify_playlists'].mean()
+spotify_chart_count = spot_data['in_spotify_charts'].mean()
+apple_playlist_count = spot_data['in_apple_playlists'].mean()
+#Turn this into a Dictionary
+norm_data = {'Spotify Playlist' : spotify_playlist_count, 'Spotify Chart' : spotify_chart_count, 'Apple Playlist' : apple_playlist_count}
+#Convert the Dictionary to a DataFrame
+graph_data = pd.DataFrame(norm_data.items(), columns=['platform', 'tracks'])
+#Generate the Graph for comparison
+sns.barplot(x = 'platform', y = 'tracks', data = graph_data, color='maroon')
+plt.title('Comparing the Number of Total Tracks Based in the Platforms')
+plt.xlabel('Platforms')
+plt.ylabel('Tracks (in Millions)')
+plt.show()
+
+x = top_five_streams[['in_spotify_playlists']].mean() #Use the Top performer's value to sum the number of tracks in the playlist
+y = top_five_streams[['in_spotify_charts']].mean()
+z = top_five_streams[['in_apple_playlists']].mean()
+print("The mean of the Top performing Tracks that favors using the Spotify Playlist is ", x)
+print("The mean of the Top performing Tracks that favors using the Spotify Chart is ", y)
+print("The mean of the Top performing Tracks that favors using the Apple Playlist is ", z)
+```
+### Advanced Analysis 
+  - For creating a graph of the mean for each key I first loaded up the data
+```
+#find the means for each key
+key_data = spot_data.groupby('key')['streams'].mean()
+#Print the Means
+print ('The average on each key is: ', key_data)
+```
+  - Then, I converted it to the dictionary. At first, I thought of using the same method I used before, where I made the dictionary manually but came up with a Value Error, so I looked at some sources to resolve this issue and found the .to_dict().[^7]
+```
+key_dict_data = key_data.to_dict()
+```
+  - After that, I made the same thing where I converted the Dictionary into a DataFrame and then created the graph for it.
+```
+#convert Dictionary to DataFrame
+key_graph_data= pd.DataFrame(key_dict_data.items(), columns=['key', 'streams'])
+#Create the graph
+sns.barplot(x = 'key', y = 'streams', data = key_graph_data, color = 'green')
+plt.title('Comparing the Mean of Each Key')
+plt.xlabel('Key')
+plt.ylabel('Streams')
+plt.show()
+```
 ## Libraries Utilized
   - Pandas
   - Matplotlib.pyplot
@@ -340,6 +392,7 @@ print("The sum of the Top performing Tracks that favors using the Apple Playlist
   - Loaded the CSV file
 
 ## References:
+[^7]: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_dict.html
 [^6]: https://stackoverflow.com/a/18837389/23541370
 [^5]: https://www.westga.edu/academics/research/vrc/assets/docs/scatterplots_and_correlation_notes.pdf
 [^4]: https://saturncloud.io/blog/python-pandas-how-to-remove-nan-and-inf-values/
