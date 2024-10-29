@@ -351,6 +351,24 @@ plt.xlabel('Key')
 plt.ylabel('Streams')
 plt.show()
 ```
+## October 29, 2024
+  - So, I realized that I needed to compare the number of streams of the tracks with a similar key.
+  - **Note: I will use the same code for all of the keys, so for clarity, I will enclose the changed variables with a parenthesis ().**
+  - I learned that you can set it as ascending = False so it will go in descending order.[^8]
+```
+#Sort the spot_data by streams
+keys = spot_data.sort_values(by = 'streams', ascending = False)
+#Call the specific data needed
+(key value)_key_data = keys.loc[(spot_data['key'] == '(key value)')].head()
+#Plot the graph
+plt.figure(figsize = (15, 10))
+sns.lineplot(x ='track_name', y ='streams', data = (key value)_key_data, color ='(color)', marker ='o')
+plt.title('Tracks with the Same Key') #Title
+plt.xlabel('Track')  #Label for track names
+plt.ylabel('Streams')  #Label for stream counts
+plt.grid(True)
+plt.show()
+```
 ## Libraries Utilized
   - Pandas
   - Matplotlib.pyplot
@@ -360,6 +378,8 @@ plt.show()
   - Kyle Nathaniel V. Dimalanta
 
 ## Version History
+## 0.8 - October 29, 2024
+  - Some Additions in Advanced Analysis
 ### 0.7 - October 28, 2024
   - Start creating the Advance Analysis
   - Fix Platform Popularity from .sum() to .mean()
@@ -392,6 +412,7 @@ plt.show()
   - Loaded the CSV file
 
 ## References:
+[^8]: https://blog.hubspot.com/website/pandas-sortby#:~:text=Pandas%20Sort%20by%20Column&text=Sorting%20data%20within%20a%20dataframe,the%20values%20in%20descending%20order.
 [^7]: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_dict.html
 [^6]: https://stackoverflow.com/a/18837389/23541370
 [^5]: https://www.westga.edu/academics/research/vrc/assets/docs/scatterplots_and_correlation_notes.pdf
