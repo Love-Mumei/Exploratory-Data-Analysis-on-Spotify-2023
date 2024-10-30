@@ -54,8 +54,32 @@
   - **Answer:** Using the data from the "Top Performers," I saw that Spotify playlist is the top track's favored platform.
 
 ## Advanced Analysis
+### The Graphs for the top 20 tracks with the same keys:
+#### A key:
+![image](https://github.com/user-attachments/assets/4014d665-28c6-4087-ae4d-e68e7c03ba0d)
+#### A# key:
+![image](https://github.com/user-attachments/assets/49cf1ef0-ecf4-48eb-bec5-139a3bff4941)
+#### B key:
+![image](https://github.com/user-attachments/assets/3e5a9bba-0b57-4f9e-8fcf-923e27fcaf88)
+#### C# Key:
+![image](https://github.com/user-attachments/assets/613ca438-67eb-46ba-a666-6f850cc66da1)
+#### D key:
+![image](https://github.com/user-attachments/assets/161dbd1a-8942-4efe-8897-7b8c74dab786)
+#### D# key:
+![image](https://github.com/user-attachments/assets/6d81c5e1-7c32-4475-ac2c-9ebfe9ce028e)
+#### E key:
+![image](https://github.com/user-attachments/assets/3ef27f8d-bea8-4e2f-ad6e-3e68b800aca4)
+#### F key:
+![image](https://github.com/user-attachments/assets/79fff8a7-cb43-436e-874e-323272fb0839)
+#### F# key:
+![image](https://github.com/user-attachments/assets/4f9058b4-8050-43bb-ae3d-7bb044667693)
+#### G key:
+![image](https://github.com/user-attachments/assets/223da2f5-1303-4d77-8a17-bd70c3e343de)
+#### G# key:
+![image](https://github.com/user-attachments/assets/45712e1c-da33-42a0-bb97-cfebe5b84d53)
+### The Average of each tracks with the same keys:
 ![image](https://github.com/user-attachments/assets/31c0c3a8-7a72-440e-b161-59b9cf0deca5)
-
+### Graph of the Average streams comparing Major and Minor Mode:
 ![image](https://github.com/user-attachments/assets/47e7cb39-48fa-4ed4-bf89-fc160a83f8e0)
 
 
@@ -340,7 +364,7 @@ print ('The average on each key is: ', key_data)
 ```
 key_dict_data = key_data.to_dict()
 ```
-  - After that, I made the same thing where I converted the Dictionary into a DataFrame and then created the graph for it.
+  - After that, I did the same thing: I converted the Dictionary into a DataFrame and then created the graph.
 ```
 #convert Dictionary to DataFrame
 key_graph_data= pd.DataFrame(key_dict_data.items(), columns=['key', 'streams'])
@@ -352,6 +376,7 @@ plt.ylabel('Streams')
 plt.show()
 ```
 ## October 29, 2024
+### Advanced Analysis
   - So, I realized that I needed to compare the number of streams of the tracks with a similar key.
   - **Note: I will use the same code for all of the keys, so for clarity, I will enclose the changed variables with a parenthesis ().**
   - I learned that you can set it as ascending = False so it will go in descending order.[^8]
@@ -367,6 +392,24 @@ plt.title('Tracks with the Same Key') #Title
 plt.xlabel('Track')  #Label for track names
 plt.ylabel('Streams')  #Label for stream counts
 plt.grid(True)
+plt.show()
+```
+## October 30, 2024
+### Advance Analysis
+  - A couple of changes in the code: I will now use the top 20 instead of the top 5 Highest streams to make the analysis more accurate. When I got the overlapping problem, I looked for a solution and found one in the Stackoverflow.[^9] But it showed a user error, and I looked for a solution and found .xticks().[^10]
+```
+#Sort the spot_data by streams in descending order
+keys = spot_data.sort_values(by = 'streams', ascending = False)
+#Call the specific data needed
+(key)_key_data = keys.loc[(spot_data['key'] == '(key)')].head(20)
+#Plot the graph
+plt.figure(figsize = (20, 10))
+sns.lineplot(x = 'track_name', y = 'streams', data = (key)_key_data, color ='(color)', marker ='o')
+plt.title('Tracks with the Same Key') #Title
+plt.xlabel('Top 10 Tracks with the Key (key)')  #Label for track names
+plt.ylabel('Streams')  #Label for stream counts
+plt.grid(True)
+plt.xticks(rotation=40, ha='right')
 plt.show()
 ```
 ## Libraries Utilized
@@ -412,6 +455,8 @@ plt.show()
   - Loaded the CSV file
 
 ## References:
+[^10]: https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_xticklabels.html
+[^9]: https://stackoverflow.com/a/42674281/23541370
 [^8]: https://blog.hubspot.com/website/pandas-sortby#:~:text=Pandas%20Sort%20by%20Column&text=Sorting%20data%20within%20a%20dataframe,the%20values%20in%20descending%20order.
 [^7]: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_dict.html
 [^6]: https://stackoverflow.com/a/18837389/23541370
