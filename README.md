@@ -434,12 +434,12 @@ top_five_artist.head()
   - Kyle Nathaniel V. Dimalanta
 
 ## Version History
-## 0.9 - October 30, 2024
+### 0.9 - October 30, 2024
   - Upload the Code to the repository
   - Fix the Answers for the report
   - Added a Code for the Top Performers that appeared the most in the dataset
   - Finished the Advanced Analysis
-## 0.8 - October 29, 2024
+### 0.8 - October 29, 2024
   - Some Additions in Advanced Analysis
 ### 0.7 - October 28, 2024
   - Start creating the Advance Analysis
