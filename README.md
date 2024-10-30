@@ -18,7 +18,9 @@
 ## Top Performers
 ### Top 5 Tracks:
 ![image](https://github.com/user-attachments/assets/6576b7ca-9471-4d26-9857-cc1b166d48d3)
-- **Answer:** The image above is the Top 5 most streamed tracks. The highest-streamed track is "Blinding Light" by The Weeknd.
+### Top 5 Artists
+![image](https://github.com/user-attachments/assets/4baf2120-6047-4a93-833b-8038fd9fbc18)
+- **Answer:** The image above is the Top 5 most streamed tracks. The highest-streamed track is "Blinding Light" by The Weeknd. The top 5 artists that most appeared in the dataset are Taylor Swift, who appeared 34 times, followed by The Weeknd, who appeared 22 times; Bad Bunny and SZA, who both appeared 19 times; and Harry Styles, who appeared 17 times.
 ## Temporal Trends
 #### The Tracks Released Per Year:
 ![image](https://github.com/user-attachments/assets/c2913f62-49cd-4abd-8636-17f4da4b6164)
@@ -410,6 +412,12 @@ plt.grid(True)
 plt.xticks(rotation=40, ha='right')
 plt.show()
 ```
+### Top Performers
+  - I just realized that I forgot to code the top 5 most frequent artists based on the number of tracks in the dataset.
+```
+top_five_artist = spot_data['artist(s)_name'].value_counts()
+top_five_artist.head()
+```
 ## Libraries Utilized
   - Pandas
   - Matplotlib.pyplot
@@ -419,6 +427,9 @@ plt.show()
   - Kyle Nathaniel V. Dimalanta
 
 ## Version History
+## 0.9 - October 30, 2024
+  - Added a Code for the Top Performers that appeared the most in the dataset
+  - Finished the Advanced Analysis
 ## 0.8 - October 29, 2024
   - Some Additions in Advanced Analysis
 ### 0.7 - October 28, 2024
