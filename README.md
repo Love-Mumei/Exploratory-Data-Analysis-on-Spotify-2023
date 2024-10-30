@@ -435,6 +435,7 @@ top_five_artist.head()
 
 ## Version History
 ## 0.9 - October 30, 2024
+  - Upload the Code to the repository
   - Fix the Answers for the report
   - Added a Code for the Top Performers that appeared the most in the dataset
   - Finished the Advanced Analysis
