@@ -76,11 +76,18 @@
 ![image](https://github.com/user-attachments/assets/45712e1c-da33-42a0-bb97-cfebe5b84d53)
 ### The Average of each track with the same keys:
 ![image](https://github.com/user-attachments/assets/31c0c3a8-7a72-440e-b161-59b9cf0deca5)
-**Answer:** Based on my observations of each track with the same key, I only saw the pattern go downward, showing this graph is ranked from the highest streamed track to the lowest streamed track. If using this, it is reliable to see which track with the same key has the highest streams or what the top number-performing track with the same key will be.
+  - **Answer:** Based on my observations of each track with the same key, I only saw the pattern go downward, showing this graph is ranked from the highest streamed track to the lowest streamed track. If using this, it is reliable to see which track with the same key has the highest streams or what the top number-performing track with the same key will be.
 ### Graph of the Average streams comparing Major and Minor Mode:
 ![image](https://github.com/user-attachments/assets/47e7cb39-48fa-4ed4-bf89-fc160a83f8e0)
-**Answer:** Based on the graph, the listeners favor the Major mode more than the Minor Mode.
-
+  - **Answer:** Based on the graph, the listeners favor the Major mode more than the Minor Mode.
+### The Artist(s) that appeared in the Playlist
+![image](https://github.com/user-attachments/assets/385a2629-ad2d-49a7-8bcd-d224f6ce65da)
+  - **Answer:** The artists that consistently appeared on Spotify's playlists are Daft Punk, Eminem, The Chainsmokers, Dr. Dre, and Post Malone.
+### The Artist(s) that appeared in the Charts
+![image](https://github.com/user-attachments/assets/e0618ab7-6373-464c-a5b0-90b1ba5f908e)
+  - **Answer:** The artists consistently appearing in the Spotify Charts are The Weeknd, Metro Boomin, and Bizarrap.
+### Perform an analysis to compare the most frequently appearing artists in playlists or charts.
+  - **Answer:** Comparing the two, it seems more common to appear in the Spotify Playlist than in the Spotify charts. It also seems that collaborations between artists are more likely to appear in both the playlist and the charts.
 ## Documentation
 
 ### October 21, 2024
@@ -428,6 +435,7 @@ top_five_artist.head()
 
 ## Version History
 ## 0.9 - October 30, 2024
+  - Fix the Answers for the report
   - Added a Code for the Top Performers that appeared the most in the dataset
   - Finished the Advanced Analysis
 ## 0.8 - October 29, 2024
