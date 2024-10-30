@@ -12,24 +12,19 @@
 
 ### Distribution of Release Year:
 ![image](https://github.com/user-attachments/assets/5ba30fb0-df94-428b-bf9d-4c956df5844f)
-
 ### Distribution of Artist Count:
 ![image](https://github.com/user-attachments/assets/48026347-8d48-498e-9abb-7502feb00ab8)
-
+- **Answer:** The graph for the released_year is skewed towards the right, indicating that the number of released tracks increases as the years go by. The artist_count is skewed to the left, indicating that the number of artists in most tracks in the given dataset consists of only one artist.
 ## Top Performers
-  - The Top 1 track is *Blinding Lights* by The Weeknd with a stream count of 3.703895e+09
-
 ### Top 5 Tracks:
 ![image](https://github.com/user-attachments/assets/6576b7ca-9471-4d26-9857-cc1b166d48d3)
-
+- **Answer:** The image above is the Top 5 most streamed tracks. The highest-streamed track is "Blinding Light" by The Weeknd.
 ## Temporal Trends
-  - From what I noticed in the graph, the trend of tracks released per year is that as the years go by, the number of streams gradually increases.
 #### The Tracks Released Per Year:
 ![image](https://github.com/user-attachments/assets/c2913f62-49cd-4abd-8636-17f4da4b6164)
-  - Comparing the monthly release of tracks shows that January and May have the highest peaks of tracks released; March had a peak but not as high as the ones mentioned earlier, and August had the lowest number of tracks released among the months. After May, the number of tracks released goes down and then rises again after August.
 #### The Number of Tracks Released Every Month:
 ![image](https://github.com/user-attachments/assets/c11b01c8-ecf0-49fb-b423-cde3c496b607)
-
+- **Answer:** From what I noticed in the graph, the trend of tracks released per year is that the number of streams gradually increases as the years go by. The graph for the released_year is skewed towards the right, indicating that the number of released tracks increases as the years go by. The artist_count is skewed to the left, indicating that the number of artists in most tracks in the given dataset consists of only one artist.
 ## Genre and Music Characteristics
 ### Correlation of BPM and Streams(in Billions)
 ![image](https://github.com/user-attachments/assets/84e307d7-3c25-4d4d-9829-f2a2ca50192f)
@@ -77,16 +72,16 @@
 ![image](https://github.com/user-attachments/assets/223da2f5-1303-4d77-8a17-bd70c3e343de)
 #### G# key:
 ![image](https://github.com/user-attachments/assets/45712e1c-da33-42a0-bb97-cfebe5b84d53)
-### The Average of each tracks with the same keys:
+### The Average of each track with the same keys:
 ![image](https://github.com/user-attachments/assets/31c0c3a8-7a72-440e-b161-59b9cf0deca5)
+**Answer:** Based on my observations of each track with the same key, I only saw the pattern go downward, showing this graph is ranked from the highest streamed track to the lowest streamed track. If using this, it is reliable to see which track with the same key has the highest streams or what the top number-performing track with the same key will be.
 ### Graph of the Average streams comparing Major and Minor Mode:
 ![image](https://github.com/user-attachments/assets/47e7cb39-48fa-4ed4-bf89-fc160a83f8e0)
-
+**Answer:** Based on the graph, the listeners favor the Major mode more than the Minor Mode.
 
 ## Documentation
 
 ### October 21, 2024
-
 #### Overview of the Dataset
   - When loading the CSV file, it is having a UnicodeDecodeError so I found a way to resolve it by using "encode = 'latin1'" [^1] 
   - Realizing that the data type for the 'streams' column is wrong, I used `.astype(float)` on the 'streams' column to convert the datatype from Object to Float. The code snippet is:
@@ -100,7 +95,6 @@
           streams                 float64
 
 ### October 22, 2024
-
 #### Overview of the Dataset:
   - When I reran the code, it showed an error that said "ValueError." What I did was change the code from `.astype(float)` to `pd.to_numeric(Spot_Data['streams'], errors = 'coerce')`, and it worked.[^2]
   - `pd.to_numeric()` converts it from object to float because when I looked at the raw data, it is in exponential form, and casting to integers would have caused an int casting error.
@@ -165,6 +159,7 @@
     ```
 
 ### October 23, 2024
+#### Basic Descriptive Statistics
   - I noticed that the graph for the Released Year was too small and hard to read. I found a solution to make it more readable by adjusting the number of bins:[^3]
     ```
     sns.histplot(spot_data['released_year'], color='orange', bins = 50) # Generate the histogram using Seaborn
@@ -193,12 +188,13 @@
     ![image](https://github.com/user-attachments/assets/7e1d177a-63da-40a4-b2c7-f9f021b33b5a)
 
 ### October 24, 2024
+#### Basic Descriptive Statistics
   - In the basic descriptive statistics section, I updated the graph by adding a Kernel Density Estimate (KDE) and a grid for readability. The new code is:[^3]
     ```
     sns.histplot(spot_data['released_year'], color='orange', bins = 50, kde = True) # Generate the histogram for the released year using Seaborn
     sns.histplot(spot_data['artist_count'], color='green', kde = True) # Generate the histogram for the artist count using Seaborn
     ```
-
+#### Top Performers
   - I forgot to include the track name in the Top Performers section, so I rewrote the code to include both streams and track names. Here is the new code:
     ```
     top_five_streams = spot_data.sort_values(by = 'streams').tail(6).iloc[::-1].reset_index()
@@ -234,6 +230,7 @@ plt.grid(True) #add a grid
 plt.show() #print the graph
 ```
 ### October 25, 2024
+#### Genre and Music Characteristics
   - First, I coded for the graph, looking for the correlation between BPM and Streams.
 ```
 stream_and_bpm = spot_data[['bpm', 'streams']] #look for the values of BPM and Streams
@@ -273,6 +270,7 @@ plt.grid(True) #add a grid
 plt.show() #print the graph
 ```
 ### October 26, 2024
+#### Genre and Music Characteristics
   - I started doing the Correlation of Danceability and Energy, and Valence and Acousticness
   - The Code for the Danceabilit and Energy
 ```
@@ -327,7 +325,7 @@ print("The sum of the Top performing Tracks that favors using the Apple Playlist
 ```
 
 ## October 28, 2024
-### Platform Popularity
+#### Platform Popularity
   - So, using the .sum() is not that reliable since I am looking for the average track count in the Spotify playlist, Spotify charts, and Apple playlist. So I changed it from .add() to .mean().
   - The adjustments made in the code:
 ```
@@ -352,8 +350,8 @@ print("The mean of the Top performing Tracks that favors using the Spotify Playl
 print("The mean of the Top performing Tracks that favors using the Spotify Chart is ", y)
 print("The mean of the Top performing Tracks that favors using the Apple Playlist is ", z)
 ```
-### Advanced Analysis 
-  - For creating a graph of the mean for each key I first loaded up the data
+#### Advanced Analysis 
+  - For creating a graph of the mean for each key, I first loaded up the data
 ```
 #find the means for each key
 key_data = spot_data.groupby('key')['streams'].mean()
