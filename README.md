@@ -427,6 +427,7 @@ top_five_artist = spot_data['artist(s)_name'].value_counts()
 top_five_artist.head()
 ```
 ## November 2, 2024
+### Overview of the Dataset
   - When double checking for the requirements, I saw that I need to find the errors of the datatypes in the dataset, and I changed it from Object to Float just like what I did in the streams
   - After doing that, I used .isnull() and .index to find the rows where it has a null value and use .len() to sum up the total number of rows that have a null value.[^11]
 ## Libraries Utilized
