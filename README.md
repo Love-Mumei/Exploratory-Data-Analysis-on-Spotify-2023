@@ -90,130 +90,135 @@
 ### Perform an analysis to compare the most frequently appearing artists in playlists or charts.
   - **Answer:** Comparing the two, it seems more common to appear in the Spotify Playlist than in the Spotify charts. It also seems that collaborations between artists are more likely to appear in both the playlist and the charts.
 ## Documentation
+### Overview of Dataset
+#### October 21, 2024
+- When loading the CSV file, it is having a UnicodeDecodeError so I found a way to resolve it by using "encode = 'latin1'" [^1]
+- Realizing that the data type for the 'streams' column is wrong, I used `.astype(float)` on the 'streams' column to convert the datatype from Object to Float. The code snippet is:
+```
+spot_data['streams'] = pd.to_numeric(Spot_Data['streams'], errors = 'coerce')
+spot_data.dtypes
+```
+#### October 22, 2024
+- When I reran the code, it showed an error that said "ValueError." What I did was change the code from `.astype(float)` to `pd.to_numeric(Spot_Data['streams'], errors = 'coerce')`, and it worked.[^2]
+- `pd.to_numeric()` converts it from object to float because when I looked at the raw data, it is in exponential form, and casting to integers would have caused an int casting error.
+- The code snippet is:
+```
+spot_data['streams'] = pd.to_numeric(Spot_Data['streams'], errors = 'coerce') #Convert the Data from Object to Float.
+spot_data['streams'].dtypes
+```
+#### November 2, 2024
+- When double checking for the requirements, I saw that I need to find the errors of the datatypes in the dataset, and I changed it from Object to Float just like what I did in the streams
+- After doing that, I used .isnull() and .index to find the rows where it has a null value and use .len() to sum up the total number of rows that have a null value.[^11]
+```
+#Find the indeces of the converted columns
+stream_missing = spot_data[spot_data['streams'].isnull()].index
+shazam_missing = spot_data[spot_data['in_shazam_charts'].isnull()].index
+deezer_missing = spot_data[spot_data['in_deezer_playlists'].isnull()].index
+#Print the values
+print ('The number of missing values in Streams is: ', len(stream_missing),' ', stream_missing)
+print ('The number of missing values in Shazam Charts is: ', len(shazam_missing), ' ', shazam_missing)
+print ('The number of missing values in Deezer Playlists is: ', len(deezer_missing), ' ', deezer_missing)
+```
+### Basic Descriptive Statistics
+#### October 22, 2024
+- After converting the 'streams' column from Object to Float, it was time to calculate the mean, median, and standard deviation:
+```
+# Find the Mean
+data_mean = spot_data['streams'].mean()
+print("Mean:", data_mean)
 
-### October 21, 2024
-#### Overview of the Dataset
-  - When loading the CSV file, it is having a UnicodeDecodeError so I found a way to resolve it by using "encode = 'latin1'" [^1] 
-  - Realizing that the data type for the 'streams' column is wrong, I used `.astype(float)` on the 'streams' column to convert the datatype from Object to Float. The code snippet is:
-     ```
-     spot_data['streams'] = pd.to_numeric(Spot_Data['streams'], errors = 'coerce')
-     spot_data.dtypes
-     ```
-     #### Output before conversion:
-          streams                 object
-     #### Output after conversion:
-          streams                 float64
+# Find the Median
+data_mid = spot_data['streams'].median()
+print("Median:", data_mid)
 
-### October 22, 2024
-#### Overview of the Dataset:
-  - When I reran the code, it showed an error that said "ValueError." What I did was change the code from `.astype(float)` to `pd.to_numeric(Spot_Data['streams'], errors = 'coerce')`, and it worked.[^2]
-  - `pd.to_numeric()` converts it from object to float because when I looked at the raw data, it is in exponential form, and casting to integers would have caused an int casting error.
-  - The code snippet is:
-    ```
-    spot_data['streams'] = pd.to_numeric(Spot_Data['streams'], errors = 'coerce') #Convert the Data from Object to Float.
-    spot_data['streams'].dtypes
-    ```
-    #### Output before the conversion:
-        dtype('O')
-    #### Output after the conversion:
-        dtype('float64')
+# Find the Standard Deviation
+data_std = spot_data['streams'].std()
+print("Standard Deviation:", data_std)
+```
 
-#### Basic Descriptive Statistics:
-  - After converting the 'streams' column from Object to Float, it was time to calculate the mean, median, and standard deviation:
-    ```
-    # Find the Mean
-    data_mean = spot_data['streams'].mean()
-    print("Mean:", data_mean)
+#### Outputs:
+![image](https://github.com/user-attachments/assets/928991e8-c9e6-4a7e-a855-6b668bdfa54a)
 
-    # Find the Median
-    data_mid = spot_data['streams'].median()
-    print("Median:", data_mid)
+- Then, I looked for the frequencies of the data for the Artist Count and Release Year using the code:
+```
+freq_release = spot_data['released_year'].value_counts() #Find the Frequency for Each year.
+freq_release
 
-    # Find the Standard Deviation
-    data_std = spot_data['streams'].std()
-    print("Standard Deviation:", data_std)
-    ```
+freq_artist = spot_data['artist_count'].value_counts() # Generate the Data for the Artist count
+freq_artist
+```
 
-    #### Outputs:
-    ![image](https://github.com/user-attachments/assets/928991e8-c9e6-4a7e-a855-6b668bdfa54a)
+- Used `histplot` to display the distributions for the Artist Count and Release Year as graphs using Seaborn.
 
-  - Then, I looked for the frequencies of the data for the Artist Count and Release Year using the code:
-    ```
-    freq_release = spot_data['released_year'].value_counts() #Find the Frequency for Each year.
-    freq_release
+#### Generate the Release Year Histogram:
+```
+sns.histplot(spot_data['released_year'], color='orange') # Generate the histogram using Seaborn
+# Use matplot to modify the graph and show the graph
+plt.title('Distribution of Released Year')
+plt.xlabel('Released Year')
+plt.ylabel('Frequency')
+plt.show()
+```
 
-    freq_artist = spot_data['artist_count'].value_counts() # Generate the Data for the Artist count
-    freq_artist
-    ```
+#### Generate the Artist Count Histogram:
+```
+sns.histplot(spot_data['artist_count'], color='green') # Generate the histogram using Seaborn
+# Use matplot to modify the graph and show the graph
+plt.title('Count of Artist Count')
+plt.xlabel('Artist Count')
+plt.ylabel('Frequency')
+plt.show()
+```
+#### October 23, 2024
+- I noticed that the graph for the Released Year was too small and hard to read. I found a solution to make it more readable by adjusting the number of bins:[^3]
+```
+sns.histplot(spot_data['released_year'], color='orange', bins = 50) # Generate the histogram using Seaborn
+# Use matplot to modify the graph and show the graph
+plt.title('Distribution of Released Year')
+plt.xlabel('Released Year')
+plt.ylabel('Frequency')
+plt.show()
+```
+#### The previous graph for the Released Year:
+![image](https://github.com/user-attachments/assets/51619a33-fe38-4910-bf95-20380b20e5b5)
+#### October 24, 2024
+- In the basic descriptive statistics section, I updated the graph by adding a Kernel Density Estimate (KDE) and a grid for readability. The new code is:[^3]
+```
+sns.histplot(spot_data['released_year'], color='orange', bins = 50, kde = True) # Generate the histogram for the released year using Seaborn
+sns.histplot(spot_data['artist_count'], color='green', kde = True) # Generate the histogram for the artist count using Seaborn
+```
+###  Top Performers
+#### October 23, 2024
+- When sorting the values of streams, I found out that the last value was "NaN," and when ranking, the output looked like this:
+```
+top_five = spot_data['streams'].sort_values().tail(6).iloc[::-1].reset_index()
+top_five
+```
+![image](https://github.com/user-attachments/assets/3e77a762-6453-414e-9d0c-2a8ad312e768)
 
-  - Used `histplot` to display the distributions for the Artist Count and Release Year as graphs using Seaborn.
-
-    #### Generate the Release Year Histogram:
-    ```
-    sns.histplot(spot_data['released_year'], color='orange') # Generate the histogram using Seaborn
-    # Use matplot to modify the graph and show the graph
-    plt.title('Distribution of Released Year')
-    plt.xlabel('Released Year')
-    plt.ylabel('Frequency')
-    plt.show()
-    ```
-
-    #### Generate the Artist Count Histogram:
-    ```
-    sns.histplot(spot_data['artist_count'], color='green') # Generate the histogram using Seaborn
-    # Use matplot to modify the graph and show the graph
-    plt.title('Count of Artist Count')
-    plt.xlabel('Artist Count')
-    plt.ylabel('Frequency')
-    plt.show()
-    ```
-
-### October 23, 2024
-#### Basic Descriptive Statistics
-  - I noticed that the graph for the Released Year was too small and hard to read. I found a solution to make it more readable by adjusting the number of bins:[^3]
-    ```
-    sns.histplot(spot_data['released_year'], color='orange', bins = 50) # Generate the histogram using Seaborn
-    # Use matplot to modify the graph and show the graph
-    plt.title('Distribution of Released Year')
-    plt.xlabel('Released Year')
-    plt.ylabel('Frequency')
-    plt.show()
-    ```
-    #### The previous graph for the Released Year:
-    ![image](https://github.com/user-attachments/assets/51619a33-fe38-4910-bf95-20380b20e5b5)
-
-#### Top Performaers:
-  - When sorting the values of streams, I found out that the last value was "NaN," and when ranking, the output looked like this:
-    ```
-    top_five = spot_data['streams'].sort_values().tail(6).iloc[::-1].reset_index()
-    top_five
-    ```
-    ![image](https://github.com/user-attachments/assets/3e77a762-6453-414e-9d0c-2a8ad312e768)
-
-  - I assumed that "NaN" was not counted, so I used `.dropna()`[^4] to exclude it:
-    ```
-    top_five = spot_data['streams'].sort_values().tail(6).iloc[::-1].reset_index()
-    top_five.dropna()
-    ```
-    ![image](https://github.com/user-attachments/assets/7e1d177a-63da-40a4-b2c7-f9f021b33b5a)
-
-### October 24, 2024
-#### Basic Descriptive Statistics
-  - In the basic descriptive statistics section, I updated the graph by adding a Kernel Density Estimate (KDE) and a grid for readability. The new code is:[^3]
-    ```
-    sns.histplot(spot_data['released_year'], color='orange', bins = 50, kde = True) # Generate the histogram for the released year using Seaborn
-    sns.histplot(spot_data['artist_count'], color='green', kde = True) # Generate the histogram for the artist count using Seaborn
-    ```
-#### Top Performers
-  - I forgot to include the track name in the Top Performers section, so I rewrote the code to include both streams and track names. Here is the new code:
-    ```
-    top_five_streams = spot_data.sort_values(by = 'streams').tail(6).iloc[::-1].reset_index()
-    # Sorting the column 'streams' and assuming "NaN" is not counted
-    # Putting the tail in descending order then resetting the index before removing the "NaN"
-    print(top_five_streams[['track_name', 'streams']].dropna())
-    ```
-#### Temporal Trends:
-  - This part is almost the same as the basic descriptive statistics, where I will look for the graph of the tracks released per year and compare the tracks released every month
+- I assumed that "NaN" was not counted, so I used `.dropna()`[^4] to exclude it:
+```
+top_five = spot_data['streams'].sort_values().tail(6).iloc[::-1].reset_index()
+top_five.dropna()
+```
+![image](https://github.com/user-attachments/assets/7e1d177a-63da-40a4-b2c7-f9f021b33b5a)
+#### October 24, 2024
+- I forgot to include the track name in the Top Performers section, so I rewrote the code to include both streams and track names. Here is the new code:
+```
+top_five_streams = spot_data.sort_values(by = 'streams').tail(6).iloc[::-1].reset_index()
+# Sorting the column 'streams' and assuming "NaN" is not counted
+# Putting the tail in descending order then resetting the index before removing the "NaN"
+print(top_five_streams[['track_name', 'streams']].dropna())
+```
+#### October 30, 2024
+- I just realized that I forgot to code the top 5 most frequent artists based on the number of tracks in the dataset.
+```
+top_five_artist = spot_data['artist(s)_name'].value_counts()
+top_five_artist.head()
+```
+### Temporal Trends
+#### October 24, 2024
+- This part is almost the same as the basic descriptive statistics, where I will look for the graph of the tracks released per year and compare the tracks released every month
 ```
 release_data = spot_data.groupby('released_year').size().reset_index(name='track_count') #check the ff. data and output it
 release_data
@@ -239,9 +244,9 @@ plt.ylabel('Number of Tracks Released') #label in the y-axis
 plt.grid(True) #add a grid
 plt.show() #print the graph
 ```
-### October 25, 2024
-#### Genre and Music Characteristics
-  - First, I coded for the graph, looking for the correlation between BPM and Streams.
+###  Genre and Music Characteristics
+#### October 25, 2024 
+- First, I coded for the graph, looking for the correlation between BPM and Streams.
 ```
 stream_and_bpm = spot_data[['bpm', 'streams']] #look for the values of BPM and Streams
 stream_and_bpm.dropna() #print for checking
@@ -255,9 +260,9 @@ plt.ylabel('streams In Billions') #label in the y-axis
 plt.grid(True) #add a grid
 plt.show() #print the graph
 ```
-  - I realized when coding for the correlation of streams and danceability and energy that I could use the main dataframe to call the data instead of creating a separate line of code specifically calling the two columns I needed. I used the same code from my previous code in the "Number of Tracks Released Every Month" since I was using the same type of graph, but I realized that I did not need to group the values.[^5]
-  - Another mistake on my part is that I used the wrong plot to see the correlation between the two variables. I should've used a scatter plot instead of a line plot.
-  - The code for danceability and stream graph
+- I realized when coding for the correlation of streams and danceability and energy that I could use the main dataframe to call the data instead of creating a separate line of code specifically calling the two columns I needed. I used the same code from my previous code in the "Number of Tracks Released Every Month" since I was using the same type of graph, but I realized that I did not need to group the values.[^5]
+- Another mistake on my part is that I used the wrong plot to see the correlation between the two variables. I should've used a scatter plot instead of a line plot.
+- The code for danceability and stream graph
 ```
 plt.figure(figsize=(20,10))#Adjust the size of the graph
 sns.scattereplot(x='danceability_%',y='streams', data = spot_data, color='maroon', marker = 'o') #Generate a Line graph with the month on the x-axis
@@ -268,7 +273,7 @@ plt.ylabel('Streams In Billions') #label in the y-axis
 plt.grid(True) #add a grid
 plt.show() #print the graph
 ```
-  - The code for the energy and streams graph
+- The code for the energy and streams graph
 ```
 plt.figure(figsize=(20,10))#Adjust the size of the graph
 sns.scatterplot(x='energy_%',y='streams', data = spot_data, color='purple', marker = 'o') #Generate a Line graph with the month on the x-axis
@@ -279,10 +284,9 @@ plt.ylabel('Streams In Billions') #label in the y-axis
 plt.grid(True) #add a grid
 plt.show() #print the graph
 ```
-### October 26, 2024
-#### Genre and Music Characteristics
-  - I started doing the Correlation of Danceability and Energy, and Valence and Acousticness
-  - The Code for the Danceabilit and Energy
+#### October 26, 2024
+- I started doing the Correlation of Danceability and Energy, and Valence and Acousticness
+- The Code for the Danceabilit and Energy
 ```
 plt.figure(figsize=(20,10))#Adjust the size of the graph
 sns.scatterplot(x='energy_%',y='danceability_%', data = spot_data, marker = 'o') #Generate a Line graph with the month on the x-axis
@@ -293,7 +297,7 @@ plt.ylabel('Danceability') #label in the y-axis
 plt.grid(True) #add a grid
 plt.show() #print the graph
 ```
-  - The code for the Valence and Acousticness
+- The code for the Valence and Acousticness
 ```
 plt.figure(figsize=(20,10))#Adjust the size of the graph
 sns.scatterplot(x='valence_%',y='acousticness_%', data = spot_data, color = 'green', marker = 'o') #Generate a Line graph with the month on the x-axis
@@ -305,9 +309,10 @@ plt.grid(True) #add a grid
 plt.show() #print the graph
 ```
 ---
-### Platform Popularity
-  - I start finding the sums of the following platforms for comparison. After finding the means, I plan on turning them into a Dictionary and a DataFrame. I first tried to make the same approach when reviewing the "Pandas.ipynb" but Realized that I need the keys and values to be in a row, not the keys and values to be in a column. So, looking around the internet, I found that using .items() would make the rows and values be in a column, and this allowed me to create a different name for the Columns, then went to graphing the DataFrame.[^6]
-  - As a side note, I divided the sums to 1e6 to remove it from the graph since it is already mentioned that it is in millions.
+###  Platform Popularity
+#### October 26, 2024
+- I start finding the sums of the following platforms for comparison. After finding the means, I plan on turning them into a Dictionary and a DataFrame. I first tried to make the same approach when reviewing the "Pandas.ipynb" but Realized that I need the keys and values to be in a row, not the keys and values to be in a column. So, looking around the internet, I found that using .items() would make the rows and values be in a column, and this allowed me to create a different name for the Columns, then went to graphing the DataFrame.[^6]
+- As a side note, I divided the sums to 1e6 to remove it from the graph since it is already mentioned that it is in millions.
 ```
 #Find the sums of each platform divided into 1e6 for simplification
 spotify_playlist_count = spot_data['in_spotify_playlists'].sum()
@@ -324,7 +329,7 @@ plt.xlabel('Platforms')
 plt.ylabel('Tracks (in Millions)')
 plt.show()
 ```
-  - looking for the favored platform used by the top-performing tracks, I used the previous code in "Top Performers" as my basis for analyzing the favored platform by the top tracks.
+- looking for the favored platform used by the top-performing tracks, I used the previous code in "Top Performers" as my basis for analyzing the favored platform by the top tracks.
 ```
 x = top_five_streams[['in_spotify_playlists']].sum()
 y = top_five_streams[['in_spotify_charts']].sum()
@@ -333,11 +338,9 @@ print("The sum of the Top performing Tracks that favors using the Spotify Playli
 print("The sum of the Top performing Tracks that favors using the Spotify Chart is ", y)
 print("The sum of the Top performing Tracks that favors using the Apple Playlist is ", z)
 ```
-
-## October 28, 2024
-#### Platform Popularity
-  - So, using the .sum() is not that reliable since I am looking for the average track count in the Spotify playlist, Spotify charts, and Apple playlist. So I changed it from .add() to .mean().
-  - The adjustments made in the code:
+#### October 28, 2024
+- So, using the .sum() is not that reliable since I am looking for the average track count in the Spotify playlist, Spotify charts, and Apple playlist. So I changed it from .add() to .mean().
+- The adjustments made in the code:
 ```
 spotify_playlist_count = spot_data['in_spotify_playlists'].mean()
 spotify_chart_count = spot_data['in_spotify_charts'].mean()
@@ -360,19 +363,19 @@ print("The mean of the Top performing Tracks that favors using the Spotify Playl
 print("The mean of the Top performing Tracks that favors using the Spotify Chart is ", y)
 print("The mean of the Top performing Tracks that favors using the Apple Playlist is ", z)
 ```
-#### Advanced Analysis 
-  - For creating a graph of the mean for each key, I first loaded up the data
+#### Advanced Analysis
+- For creating a graph of the mean for each key, I first loaded up the data
 ```
 #find the means for each key
 key_data = spot_data.groupby('key')['streams'].mean()
 #Print the Means
 print ('The average on each key is: ', key_data)
 ```
-  - Then, I converted it to the dictionary. At first, I thought of using the same method I used before, where I made the dictionary manually but came up with a Value Error, so I looked at some sources to resolve this issue and found the .to_dict().[^7]
+- Then, I converted it to the dictionary. At first, I thought of using the same method I used before, where I made the dictionary manually but came up with a Value Error, so I looked at some sources to resolve this issue and found the .to_dict().[^7]
 ```
 key_dict_data = key_data.to_dict()
 ```
-  - After that, I did the same thing: I converted the Dictionary into a DataFrame and then created the graph.
+- After that, I did the same thing: I converted the Dictionary into a DataFrame and then created the graph.
 ```
 #convert Dictionary to DataFrame
 key_graph_data= pd.DataFrame(key_dict_data.items(), columns=['key', 'streams'])
@@ -383,11 +386,34 @@ plt.xlabel('Key')
 plt.ylabel('Streams')
 plt.show()
 ```
-## October 29, 2024
-### Advanced Analysis
-  - So, I realized that I needed to compare the number of streams of the tracks with a similar key.
-  - **Note: I will use the same code for all of the keys, so for clarity, I will enclose the changed variables with a parenthesis ().**
-  - I learned that you can set it as ascending = False so it will go in descending order.[^8]
+###  Advanced Analysis
+#### October 28, 2024
+- For creating a graph of the mean for each key, I first loaded up the data
+```
+#find the means for each key
+key_data = spot_data.groupby('key')['streams'].mean()
+#Print the Means
+print ('The average on each key is: ', key_data)
+```
+- Then, I converted it to the dictionary. At first, I thought of using the same method I used before, where I made the dictionary manually but came up with a Value Error, so I looked at some sources to resolve this issue and found the .to_dict().[^7]
+```
+key_dict_data = key_data.to_dict()
+```
+- After that, I did the same thing: I converted the Dictionary into a DataFrame and then created the graph.
+```
+#convert Dictionary to DataFrame
+key_graph_data= pd.DataFrame(key_dict_data.items(), columns=['key', 'streams'])
+#Create the graph
+sns.barplot(x = 'key', y = 'streams', data = key_graph_data, color = 'green')
+plt.title('Comparing the Mean of Each Key')
+plt.xlabel('Key')
+plt.ylabel('Streams')
+plt.show()
+```
+#### October  29, 2024
+- So, I realized that I needed to compare the number of streams of the tracks with a similar key.
+- **Note: I will use the same code for all of the keys, so for clarity, I will enclose the changed variables with a parenthesis ().**
+- I learned that you can set it as ascending = False so it will go in descending order.[^8]
 ```
 #Sort the spot_data by streams
 keys = spot_data.sort_values(by = 'streams', ascending = False)
@@ -397,14 +423,13 @@ keys = spot_data.sort_values(by = 'streams', ascending = False)
 plt.figure(figsize = (15, 10))
 sns.lineplot(x ='track_name', y ='streams', data = (key value)_key_data, color ='(color)', marker ='o')
 plt.title('Tracks with the Same Key') #Title
-plt.xlabel('Track')  #Label for track names
-plt.ylabel('Streams')  #Label for stream counts
+plt.xlabel('Track') #Label for track names
+plt.ylabel('Streams') #Label for stream counts
 plt.grid(True)
 plt.show()
 ```
-## October 30, 2024
-### Advance Analysis
-  - A couple of changes in the code: I will now use the top 20 instead of the top 5 Highest streams to make the analysis more accurate. When I got the overlapping problem, I looked for a solution and found one in the Stackoverflow.[^9] But it showed a user error, and I looked for a solution and found .xticks().[^10]
+#### October 30, 2024
+- A couple of changes in the code: I will now use the top 20 instead of the top 5 Highest streams to make the analysis more accurate. When I got the overlapping problem, I looked for a solution and found one in the Stackoverflow.[^9] But it showed a user error, and I looked for a solution and found .xticks().[^10]
 ```
 #Sort the spot_data by streams in descending order
 keys = spot_data.sort_values(by = 'streams', ascending = False)
@@ -414,22 +439,12 @@ keys = spot_data.sort_values(by = 'streams', ascending = False)
 plt.figure(figsize = (20, 10))
 sns.lineplot(x = 'track_name', y = 'streams', data = (key)_key_data, color ='(color)', marker ='o')
 plt.title('Tracks with the Same Key') #Title
-plt.xlabel('Top 10 Tracks with the Key (key)')  #Label for track names
-plt.ylabel('Streams')  #Label for stream counts
+plt.xlabel('Top 10 Tracks with the Key (key)') #Label for track names
+plt.ylabel('Streams') #Label for stream counts
 plt.grid(True)
 plt.xticks(rotation=40, ha='right')
 plt.show()
 ```
-### Top Performers
-  - I just realized that I forgot to code the top 5 most frequent artists based on the number of tracks in the dataset.
-```
-top_five_artist = spot_data['artist(s)_name'].value_counts()
-top_five_artist.head()
-```
-## November 2, 2024
-### Overview of the Dataset
-  - When double checking for the requirements, I saw that I need to find the errors of the datatypes in the dataset, and I changed it from Object to Float just like what I did in the streams
-  - After doing that, I used .isnull() and .index to find the rows where it has a null value and use .len() to sum up the total number of rows that have a null value.[^11]
 ## Libraries Utilized
   - Pandas
   - Matplotlib.pyplot
