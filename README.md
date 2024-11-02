@@ -4,7 +4,8 @@
   - Datatypes on each column:
      - **Object:** track name, artist(s) name, streams, in Spotify playlists, in Apple playlists, in Deezer playlists, in Shazam charts, key, mode
      - **Int64:** artist count, released year, released month, released day, in Spotify charts, in Apple charts, in Deezer charts, bpm, danceability, valence, energy, acousticness, instrumentalness, liveness, speechiness
-
+  ### Rows of the Missing values:
+  ![image](https://github.com/user-attachments/assets/bd69acf4-541e-40c0-98ef-9b6828bf2ae2)
 ## Basic Descriptive Statistics
   - Mean: 514137424.93907565
   - Median: 290530915.0
@@ -425,6 +426,9 @@ plt.show()
 top_five_artist = spot_data['artist(s)_name'].value_counts()
 top_five_artist.head()
 ```
+## November 2, 2024
+  - When double checking for the requirements, I saw that I need to find the errors of the datatypes in the dataset, and I changed it from Object to Float just like what I did in the streams
+  - After doing that, I used .isnull() and .index to find the rows where it has a null value and use .len() to sum up the total number of rows that have a null value.[^11]
 ## Libraries Utilized
   - Pandas
   - Matplotlib.pyplot
@@ -434,6 +438,10 @@ top_five_artist.head()
   - Kyle Nathaniel V. Dimalanta
 
 ## Version History
+### 1.0 - November 2, 2024
+  -Fix the format of documentation
+  - Find the rows of the missing values of the streams, in_deezer_playlists, and in_shazam_playlists.
+  - Convert the in_deezer_playlists, and in_shazam_playlists from Onject to Float.
 ### 0.9 - October 30, 2024
   - Upload the Code to the repository
   - Fix the Answers for the report
@@ -473,6 +481,7 @@ top_five_artist.head()
   - Loaded the CSV file
 
 ## References:
+[^11]: https://stackoverflow.com/questions/29530232/how-to-check-if-any-value-is-nan-in-a-pandas-dataframe
 [^10]: https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_xticklabels.html
 [^9]: https://stackoverflow.com/a/42674281/23541370
 [^8]: https://blog.hubspot.com/website/pandas-sortby#:~:text=Pandas%20Sort%20by%20Column&text=Sorting%20data%20within%20a%20dataframe,the%20values%20in%20descending%20order.
